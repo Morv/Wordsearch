@@ -1,5 +1,7 @@
 Wordsearch
 ==========
+***View in "Raw" or "Edit" mode to see the correct spacing....
+
 
 Word Search Puzzle Exam 2/Assignment (This assignment will count as 200 assignment points)
 				     (This assignment will count as exam two).
