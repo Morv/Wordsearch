@@ -31,13 +31,11 @@ main() {
 		//placeTheWord(randD, array, randX, randY);
 	}
 	//all words placed? no-->word[i+1]
-	
-	//fill empty slots with random letters.
+	asdfs.
 
 	//display game board
 	//display words in 2 columns.
-	//printf("1. blah blah       8. blah blah");
-	//printf("2. blah blah		 9. blah blah");
+	//printf("1. blah blah dfasdfa	 9. blah blah");
  pause;
 }
 //get game Words
