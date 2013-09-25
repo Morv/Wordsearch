@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include <time.h>//To make random number wo
 #define pause system ("pause")
 #define cls system ("cls")
@@ -8,86 +9,104 @@
 #define ROWS 25
 
 
-//void display(int *Colums,int *Row,int *Direction);
-//int fits(int *Colums,int *Row,int *Direction);
-void getWords(char keywords[14][9]);
+void display(int *Colums,char keywords[14][9]);
+void fits(int *Colums,int *Row,int *Direction, int length);
+void getWords(char keywords[14][9], int a);
+int fitsRight(int Col, int Row);
 
 main(){
+	int a = 0;
 	int Colums=0;
 	int Row=0;
 	int Direction=0;
 	int counter=0;
+	int length, i = 0;
 	char wordSearch[ROWS][COLUMNS]={'\0'};
 	char keywords[14][9]={'\0'};
 
-	getWords(keywords);
 
-	/*do{
 
-	//display(&Colums,&Row,&Direction);
+	do{
+		getWords(keywords, a);
+		length = strlen(keywords[i]);
+		fits(&Colums,&Row,&Direction, length);
+		display(&Colums,keywords);
+		//putInTheWord();
 
-	fits(&Colums,&Row,&Direction);
 
-	counter++;
+		counter++;
+		i++;
+		a++;//counter for keyword
 	}while(counter != 14);
 
-	*/
 	pause;
 }//End of main
 
 
 
-/*void display(int *Colums){
-int i;
+void display(int *Colums,char keywords[14][9]){
+	int i;
+	int j;
+	//char array[ROWS][COLUMNS];
 
-char array[ROWS][COLUMNS];
+	for(i=0;i<ROWS;i++){
 
+		for(j=0;j<*Colums;j++){
+printf("%c",keywords[ROWS][*Colums]);
+		}
+	
+	}
 
-printf_s("Enter charactor (0-6) :");
-scanf_s("%s",array[0]);
-
-for(i=0;i<=*Colums;i++){
-
-if(i == *Colums)
-printf_s("%s",array[0]);
-
-else
-printf_s("\n");
-}
-
-pause;
+	pause;
 
 }//End of display
-*/
-/*int fits(int *Colums,int *Row,int *Direction){
-
-int fits=0;
-
-*Colums= rand() % (50 + 0);//for COLUMNS 0-24
-*Row=  rand() % (25 + 0);//for Rows 0-490
-*Direction=  rand() % (8 + 0);//for directions 0-7
 
 
-if(*Direction ==1){
+void fits(int *Colums,int *Row,int *Direction,int length){
+	int end = 0; //to get out of the loop 
+	while (end == 0){
+		end = 0;
+		*Colums= rand() % (50 + 0);//for COLUMNS 0-49
+		*Row=  rand() % (25 + 0);//for Rows 0-24
+		*Direction=  rand() % (8 + 0);//for directions 0-7
 
-rihgt();
+		switch(1){
+		case 1://right
+			if ((fitsRight(*Colums,length)) == 0)
+			{
+				end = 1;
+			};
+
+			break;
+		case 2://leftfg
+
+			break;
+
+		}//end of fits
+	}
+
 }
 
 
-}//end of fits
 
-*/
-
-void getWords(char keywords[14][9]){
-	int i;
-
-	for(i=0;i<14;i++){
-		printf_s("Enter a word %i of 14 :",i+1);
-		scanf_s("%s",keywords[i]);
-		printf_s("%s",keywords[i]);
-		pause;
-	}//end of for
+void getWords(char keywords[14][9], int i){
+	int length =0;
 
 
+	printf_s("Enter a word %i of 14 :",i+1);
+	scanf_s("%s",keywords[i],8);
 }//end of getWords
+
+int fitsRight(int Col, int length){
+
+	int i=0;
+
+	if (Col + length <=25){
+		printf("Worked");
+		return 1;
+	}//end of if 
+
+	return 0;
+}//end of right
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
