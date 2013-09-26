@@ -55,7 +55,7 @@ void getWords(char keyword[][KEYLEN]){
 	for(i=0; i<KEY; i++){
 		printf("Enter the %i word of 14: ", i+1);
 		scanf("%s", keyword[i]);
-		if(strlen(keyword[i])>8){
+		while(strlen(keyword[i])>8){
 			printf("Input invalid!!!ReEnter the %i word of 14: ", i+1);
 			flush;
 			scanf("%s", keyword[i]);
