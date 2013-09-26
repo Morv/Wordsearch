@@ -1,5 +1,14 @@
-//We just got to add comment and also fill up the grid to display,sort the words and display it to the screen.
+/*
+added a function for increasing console window size.
+added random letters to puzzle.
+added display game function.
+added double column display words function.
 
+needs bubble sort.
+
+removed char x = ' '; from functions, they weren't used.
+
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
