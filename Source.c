@@ -1,6 +1,3 @@
-//need to add bubble sort and maybe some comments
-
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -29,13 +26,15 @@ void displayGame(char wordSearch[][C]);
 void fillInTheBlank(char wordSearch[][C]);
 char randomLetter();
 void displayWords(char keyword[][KEYLEN]);
-//void sortAToZ(char keyword[][KEYLEN]);
+void sortAToZ(char keyword[][KEYLEN]);
+void saveGame(char wordSearch[][C], char keyword[][KEYLEN]);
 
 
 main(){
 	int a =0,b=0;
 	char wordSearch[R][C] ={"\0"};
 	char keyword[KEY][KEYLEN] ={"\0"};
+
 	srand(time(NULL));
 	system("mode CON: COLS=102");
 	
@@ -43,78 +42,72 @@ main(){
 	fits(wordSearch, keyword);
 	cls;
 	fillInTheBlank(wordSearch);
-	//sortAToZ(keyword);
+	sortAToZ(keyword);
 	displayGame(wordSearch);
-	displayWords(keyword);
-
+	displayWords(keyword);					
+	saveGame(wordSearch, keyword);
 	pause;
 }
 
 void getWords(char keyword[][KEYLEN]){
 	int i = 0;
+
 	for(i=0; i<KEY; i++){
 		printf("Enter the %i word of 14: ", i+1);
 		scanf("%s", keyword[i]);
 		while(strlen(keyword[i])>8){
-			printf("ERROR: Word must be 8 letters or less\n!!!ReEnter the %i word of 14: ", i+1);
+			printf("ERROR: Word must be 8 letters or less\n!!!Re-Enter word %i of 14: ", i+1);
 			flush;
 			scanf("%s", keyword[i]);
 		}
 	}
+
 	pause;
 	cls;
 }//end of getWords
 void fits(char wordSearch[][C],char keyword[][KEYLEN]){
-	int a =0,b=0;
-	int count = 0;
-	int col=0;
-	int row=0;
-	int direct =0;
-	int length = 0;
+	int a =0,b=0, count = 0, col=0, row=0, direct =0, length = 0;
 	char *temp[8] ={'\0'};
 
 	for(count= 0; count<KEY; count++)
 	{
 		length = strlen(keyword[count]);
 		*temp = keyword[count];
-		col= (rand() % (49 + 1 - 0)) + 0;//for COLUMNS 0-49
-		row= (rand() % (24 + 1 - 0)) + 0;//for Rows 0-24
-		direct = (rand() % (8 + 1 - 1)) + 1;//for directions 1-8
-//		printf("Direction: %i\n",direct);
+		col = rand() % 50 + 0;//for COLUMNS 0-49
+		row = rand() % 25 + 0;//for Rows 0-24
+		direct = rand() % 8 + 1;//for directions 1-8
 
 		switch(direct){
+
 		case 1://right
 			rightFit(col, row, length, wordSearch,*temp);
 			break;
-		case 2:
+		case 2://left
 			leftFit(col, row, length, wordSearch,*temp);
 			break;
-		case 3:
+		case 3://down
 			downFit(col, row, length, wordSearch,*temp);
 			break;
-		case 4: 
+		case 4://up
 			upFit(col, row, length, wordSearch,*temp);
 			break;
-		case 5:
+		case 5://right down
 			RdownFit(col, row, length, wordSearch,*temp);
 			break;
-		case 6:
+		case 6://left down
 			LdownFit(col, row, length, wordSearch,*temp);
 			break;
-		case 7:
+		case 7://right up
 			RupFit(col, row, length, wordSearch,*temp);
 			break;
-		case 8:
+		case 8://left up
 			LupFit(col, row, length, wordSearch,*temp);
 			break;
 		}// end of switch
-//		printf("\n");
-//		printf("Keyword used %s\n", keyword[count]);
-//		printf("\n");
 
 		//DISPLAY ANSWERS
 	if (count == (KEY-1)){  //if all word has been added to the puzzle
-		for(a=0; a<R;a++){  //display the current puzzle (keywords only)
+		for(a=0; a<R;a++){  //display the current puzzle array
 			for(b=0;b<C;b++){
 				printf("%c", wordSearch[a][b]);
 			}
@@ -133,33 +126,33 @@ void rightFit(int col, int row, int length, char wordSearch[][C],char *temp){
 	int i =0;
 	char test = ' ';
 	int t= 0;
-	while ((col + length) >C){
-		col= rand() % (50 + 0);//for COLUMNS 0-49
-	}
-//	printf("right\n"); n
-//	pause;
-	for(t = 0; t<length;t++){
-		test = temp[t];
-		test = toupper(test);
-		temp[t] = test;
+	//WILL THE WORD FIT IN THE ARRAY?
+	while ((col + length) > C){   //while the column + length of word is out of bounds
+		col= rand() % (50 + 0);//get a new random column
+	}//end while
 
-		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
-			t = 0;
-			col= rand() % (50 + 0);//for COLUMNS 0-49
-			while ((col + length) >C){
-				col= rand() % (50 + 0);//for COLUMNS 0-49
-			}
-//			printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
-//			pause;
-		}
-		col++;
-	}
-	col = col - length;
+	//WILL LETTERS ONLY OVERWRITE THEMSELVES OR NULL SPACES
+	for(t = 0; t<length;t++){ //go through each letter of the word and...
+		temp[t] = toupper(temp[t]);		//...make uppercase
+
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){ //if wordsearch =! letter and wordsearch isnt blank.... get a new location
+			t = 0;//reset the letter back to the first...
+			col= rand() % (50 + 0);//new column
+			while ((col + length) >C){  //while the column+array isnt out of bounds
+				col= rand() % (50 + 0); //if it is, get a new column
+			}//end inner while
+		}//end while
+		col++;//go to next letter
+	}//end of for ( going through each letter of the word.)
+	
+	col = col - length; //go back to the initial location of col
+
+	//PUT THE WORD IN THE ARRAY
 	for(i=0; i<length;i++){
 		wordSearch[row][col] = temp[i];
 		col++;
 	}
-}
+} //end of rightFit
 void leftFit(int col, int row, int length, char wordSearch[][C],char *temp){
 	int i =0;
 	char test = ' ';
@@ -493,25 +486,51 @@ void displayWords(char keyword[][KEYLEN])
 	}//end for loop
 
 }//displays words in 2 columns
-
 void sortAToZ(char keyword[][KEYLEN])
 {
 	char temp[KEYLEN] = {'\0'};
-	int i=0, j=0, k=0;
+	int i=0, j=0;
+	//BUBBLE SORT
+	for(i = 0; i < KEY; i++){
+		for(j = 0; j < KEY-1; j++){
+			if(strcmp(keyword[j], keyword[j+1]) > 0){  //compare the 2 arrays
+				//swap the two array elements
+				strcpy(temp, keyword[j]);
+				strcpy(keyword[j], keyword[j+1]);
+				strcpy(keyword[j+1], temp);
+			}
+		}
+	}
+}//end of sort array
+void saveGame(char wordSearch[][C], char keyword[][KEYLEN])
+{
+	int i=0, j=0;
 
-	for (i=0; i<(KEY-1); i++) //start at first row
-	{
-		if (strcmp(keyword[i], keyword[i+1]) > 0)  //if the 2nd word comes before the 1st
-		{
-			for (j=0;j<(KEY-1);j++) //change the words//
-			{
-				for (k=0; k<(KEYLEN); k++) //put 1st word into temp
-				{
-					temp[0+k] = keyword[i+j][k];
-				}//center inside for
-											//put 2nd word into 1st word
-											//put temp into 2nd word
-			}//end inside for
-		}//end if
-	}//end outside for
-}//end bubble sort.
+	FILE *pWordPuzzleFile;
+		pWordPuzzleFile = fopen("wordsearch.txt", "w");
+	
+	//ADD WORDSEARCH ARRAY TO THE FILE
+	for (i=0; i<R; i++){
+		for (j=0; j<C; j++){
+			fprintf(pWordPuzzleFile, "%2c", wordSearch[i][j]);
+
+		}//end inside for
+		fprintf(pWordPuzzleFile, "\n");
+
+	}//end big for
+	fprintf(pWordPuzzleFile, "\n\n\n");
+
+	//ADD KEYWORDS ARRAY TO THE FILE
+	 for (i=0; i < (KEY/2); i++){
+		fprintf(pWordPuzzleFile, "%i.%s \t", i+1, keyword[i]);
+			if ( (strlen(keyword[i])) < 5){ //if the word is 4 letters or less, 
+				fprintf(pWordPuzzleFile, "\t");	//then add an extra tab to line up numbers
+
+			}//end if
+		fprintf(pWordPuzzleFile, "%i.%s\n", i+8, keyword[7+i]);
+
+	}//end for loop
+
+	 fclose(pWordPuzzleFile);//close file
+	 printf("\n\nWordsearch saved to file.\n");
+}//end save game to file
