@@ -1,11 +1,11 @@
-//need to add bubble sort
+//need to add bubble sort and maybe some comments
 
 
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include <ctype.h>
-#include <time.h>//To make random number wo
+#include <time.h>//To make random numbers
 #define pause system ("pause")
 #define cls system ("cls")
 #define flush fflush(stdin)
@@ -29,6 +29,7 @@ void displayGame(char wordSearch[][C]);
 void fillInTheBlank(char wordSearch[][C]);
 char randomLetter();
 void displayWords(char keyword[][KEYLEN]);
+//void sortAToZ(char keyword[][KEYLEN]);
 
 
 main(){
@@ -42,6 +43,7 @@ main(){
 	fits(wordSearch, keyword);
 	cls;
 	fillInTheBlank(wordSearch);
+	//sortAToZ(keyword);
 	displayGame(wordSearch);
 	displayWords(keyword);
 
@@ -62,7 +64,6 @@ void getWords(char keyword[][KEYLEN]){
 	pause;
 	cls;
 }//end of getWords
-
 void fits(char wordSearch[][C],char keyword[][KEYLEN]){
 	int a =0,b=0;
 	int count = 0;
@@ -127,8 +128,6 @@ void fits(char wordSearch[][C],char keyword[][KEYLEN]){
 	}// end of for loop
 
 }//end of fits
-
-
 void rightFit(int col, int row, int length, char wordSearch[][C],char *temp){
 	
 	int i =0;
@@ -161,7 +160,6 @@ void rightFit(int col, int row, int length, char wordSearch[][C],char *temp){
 		col++;
 	}
 }
-
 void leftFit(int col, int row, int length, char wordSearch[][C],char *temp){
 	int i =0;
 	char test = ' ';
@@ -193,7 +191,6 @@ void leftFit(int col, int row, int length, char wordSearch[][C],char *temp){
 	}
 
 }
-
 void downFit(int col, int row, int length, char wordSearch[][C],char *temp){
 	int i =0;
 	char test = ' ';
@@ -255,7 +252,6 @@ void upFit(int col, int row, int length, char wordSearch[][C],char *temp){
 		row--;
 	}
 }
-
 void RdownFit(int col, int row, int length, char wordSearch[][C],char *temp){
 	int i =0;
 	char test = ' ';
@@ -497,3 +493,25 @@ void displayWords(char keyword[][KEYLEN])
 	}//end for loop
 
 }//displays words in 2 columns
+
+void sortAToZ(char keyword[][KEYLEN])
+{
+	char temp[KEYLEN] = {'\0'};
+	int i=0, j=0, k=0;
+
+	for (i=0; i<(KEY-1); i++) //start at first row
+	{
+		if (strcmp(keyword[i], keyword[i+1]) > 0)  //if the 2nd word comes before the 1st
+		{
+			for (j=0;j<(KEY-1);j++) //change the words//
+			{
+				for (k=0; k<(KEYLEN); k++) //put 1st word into temp
+				{
+					temp[0+k] = keyword[i+j][k];
+				}//center inside for
+											//put 2nd word into 1st word
+											//put temp into 2nd word
+			}//end inside for
+		}//end if
+	}//end outside for
+}//end bubble sort.
