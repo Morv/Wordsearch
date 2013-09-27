@@ -1,0 +1,593 @@
+/***********************************************************************
+************************************************************************
+
+    Team Members:  Shin,Morvan,Totaram, Abbz, Ian
+
+                           Exam 2
+
+                        Word Search
+
+
+
+************************************************************************
+************************************************************************/
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include <ctype.h>
+#include <time.h>//To generate random numbers
+#define pause system ("pause")
+#define cls system ("cls")
+#define flush fflush(stdin)
+#define C 50
+#define R 25
+#define KEY 14
+#define KEYLEN 9
+
+
+void getWords(char keyword[][KEYLEN]);
+void fits(char wordSearch[][C],char keyword[][KEYLEN]);
+void rightFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void leftFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void downFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void upFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void RdownFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void LdownFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void RupFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void LupFit(int col, int row, int length, char wordSearch[][C],char *temp);
+void displayGame(char wordSearch[][C]);
+void fillInTheBlank(char wordSearch[][C]);
+char randomLetter();
+void displayWords(char keyword[KEY][KEYLEN]);
+void sortAToZ(char keyword[KEY][KEYLEN]);
+void sortEm(char keyword[KEY][KEYLEN]);
+
+
+main(){
+	int a =0,b=0;
+	char wordSearch[R][C] ={"\0"};
+	char keyword[KEY][KEYLEN] ={"\0"};
+	srand(time(NULL));
+	system("mode CON: COLS=102");
+
+
+	getWords(keyword);
+	fits(wordSearch, keyword);
+	cls;
+	fillInTheBlank(wordSearch);
+	displayGame(wordSearch);
+	sortAToZ(keyword);
+	displayWords(keyword);
+
+	pause;
+}
+
+void getWords(char keyword[][KEYLEN]){
+	int i = 0;
+	for(i=0; i<KEY; i++){
+		printf("Enter the %i word of 14: ", i+1);
+		scanf("%s", keyword[i]);
+		while(strlen(keyword[i])>8){
+			printf("ERROR: Word must be 8 letters or less\n!!!ReEnter the %i word of 14: ", i+1);
+			flush;
+			scanf("%s", keyword[i]);
+		}//end of while
+	}//end of for 
+	pause;
+	cls;
+}//end of getWords
+
+void fits(char wordSearch[][C],char keyword[][KEYLEN]){
+	int a =0,b=0;
+	int count = 0;
+	int col=0;
+	int row=0;
+	int direct =0;
+	int length = 0;
+	char *temp[8] ={'\0'}; //temporary sore charactors(keywords)
+
+	for(count= 0; count<KEY; count++){
+
+		length = strlen(keyword[count]);
+		*temp = keyword[count];//temp is getting keywords here
+		col= (rand() % (49 + 1 - 0)) + 0;//for COLUMNS 0-49
+		row= (rand() % (24 + 1 - 0)) + 0;//for Rows 0-24
+		direct = (rand() % (8 + 1 - 1)) + 1;//for directions 1-8
+		// printf("Direction: %i\n",direct);
+
+		switch(direct){
+		case 1://right
+			rightFit(col, row, length, wordSearch,*temp);
+			break;
+		case 2:
+			leftFit(col, row, length, wordSearch,*temp);
+			break;
+		case 3:
+			downFit(col, row, length, wordSearch,*temp);
+			break;
+		case 4: 
+			upFit(col, row, length, wordSearch,*temp);
+			break;
+		case 5:
+			RdownFit(col, row, length, wordSearch,*temp);
+			break;
+		case 6:
+			LdownFit(col, row, length, wordSearch,*temp);
+			break;
+		case 7:
+			RupFit(col, row, length, wordSearch,*temp);
+			break;
+		case 8:
+			LupFit(col, row, length, wordSearch,*temp);
+			break;
+		}// end of switch
+
+
+		// printf("\n");
+		// printf("Keyword used %s\n", keyword[count]);
+		// printf("\n");
+
+		//DISPLAY ANSWERS
+		if (count == (KEY-1)){  //if all word has been added to the puzzle
+
+			for(a=0; a<R;a++){  //display the current puzzle (keywords only)
+				for(b=0;b<C;b++){
+					printf("%c", wordSearch[a][b]);
+				}//end of for
+				printf("\n");
+			}//end of for 
+			pause; 
+		}//end of if 
+
+
+
+	}// end of for loop
+
+}//end of fits
+
+void rightFit(int col, int row, int length, char wordSearch[][C],char *temp){
+
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	while ((col + length) >C){ //this keeps looping until the word fits to the right 
+
+		col= rand() % (50 + 0);//for COLUMNS 0-49
+	}//end of while
+
+
+	// printf("right\n"); n
+	// pause;
+
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);// to upper letter
+		temp[t] = test;
+
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			col= rand() % (50 + 0);//for COLUMNS 0-49
+
+			while ((col + length) >C){
+				col= rand() % (50 + 0);//for COLUMNS 0-49
+			}//end of while
+
+			/*printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			pause; */
+
+		}//end of while
+
+		col++;
+	}//end of for 
+
+
+	//temp[] gets upper letter, and is stored in the wordSearch here  
+
+	col = col - length; 
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		col++;
+	}
+}
+
+void leftFit(int col, int row, int length, char wordSearch[][C],char *temp){
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	while ((col-length)<0){
+		col= rand() % (50 + 0);//for COLUMNS 0-49
+	}
+	// printf("left\n");
+	// pause;
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);
+		temp[t] = test;
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			col= rand() % (50 + 0);//for COLUMNS 0-49
+			while ((col-length)<0){
+				col= rand() % (50 + 0);//for COLUMNS 0-49
+			}
+			// printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			// pause;
+		}
+		col--;
+	}
+	col = col + length;
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		col--;
+	}
+
+}
+void downFit(int col, int row, int length, char wordSearch[][C],char *temp){
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	while ((row + length)>R){
+		row=  rand() % (25 + 0);//for Rows 0-24
+	}
+	// printf("down\n");
+	// pause;
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);
+		temp[t] = test;
+
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			row=  rand() % (25 + 0);//for Rows 0-24
+
+			while ((row + length)>R){
+
+				row=  rand() % (25 + 0);//for Rows 0-24
+			}
+			// printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			// pause;
+		}
+		row++;
+	}
+	row = row - length;
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		row++;
+	}
+
+}
+void upFit(int col, int row, int length, char wordSearch[][C],char *temp){
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	while ((row-length)<0){
+		row=  rand() % (25 + 0);//for Rows 0-24
+	}
+	// printf("up\n");
+	// pause;
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);
+		temp[t] = test;
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			row=  rand() % (25 + 0);//for Rows 0-24
+			while ((row-length)<0){
+				row=  rand() % (25 + 0);//for Rows 0-24
+			}
+			// printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			// pause;
+		}
+		row--;
+	}
+	row = row + length;
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		row--;
+	}
+}
+void RdownFit(int col, int row, int length, char wordSearch[][C],char *temp){
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	// printf("%i, %i\n", length, (col+length));
+	// printf("%i\n", (row+length));
+	// pause;
+	while ((col + length) >C){
+		col= rand() % (50 + 0);//for COLUMNS 0-49
+	}
+	while ((row + length)>R){
+		row=  rand() % (25 + 0);//for Rows 0-24
+	}
+	// printf("%i\n", (col+length));
+	// printf("%i\n", (row+length));
+	// printf("Right down\n");
+	// pause;
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);
+		temp[t] = test;
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			col= rand() % (50 + 0);//for COLUMNS 0-49
+			row=  rand() % (25 + 0);//for Rows 0-24
+			while ((col + length) >C){
+				col= rand() % (50 + 0);//for COLUMNS 0-49
+			}
+			while ((row + length)>R){
+				row=  rand() % (25 + 0);//for Rows 0-24
+			}
+			// printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			// pause;
+		}
+		col++;
+		row++;
+	}
+	col = col - length;
+	row = row -length;
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		col++;
+		row++;
+	}
+
+
+}
+void LdownFit(int col, int row, int length, char wordSearch[][C],char *temp){
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	// printf("%i, %i\n", length, (col-length));
+	// printf("%i\n", (row+length));
+	// pause;
+	while ((col-length)<0){
+		col= rand() % (50 + 0);//for COLUMNS 0-49
+	}
+	while ((row + length)>R){
+		row=  rand() % (25 + 0);//for Rows 0-24
+	}
+	// printf("%i\n", (col-length));
+	// printf("%i\n", (row+length));
+	// printf("Left down\n");
+	// pause;
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);
+		temp[t] = test;
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			col= rand() % (50 + 0);//for COLUMNS 0-49
+			row=  rand() % (25 + 0);//for Rows 0-24
+			while ((col-length)<0){
+				col= rand() % (50 + 0);//for COLUMNS 0-49
+			}
+			while ((row + length)>R){
+				row=  rand() % (25 + 0);//for Rows 0-24
+			}
+			// printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			// pause;
+		}
+		col--;
+		row++;
+	}
+	col = col + length;
+	row = row -length;
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		col--;
+		row++;
+	}
+
+
+}
+void RupFit(int col, int row, int length, char wordSearch[][C],char *temp){
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	// printf("%i, %i\n", length, (col+length));
+	// printf("%i\n", (row-length));
+	// pause;
+	while ((col + length) >C){
+		col= rand() % (50 + 0);//for COLUMNS 0-49
+	}
+	while ((row-length)<0){
+		row=  rand() % (25 + 0);//for Rows 0-24
+	}
+	// printf("%i\n", (col+length));
+	// printf("%i\n", (row-length));
+	// printf("Right up\n");
+	// pause;
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);
+		temp[t] = test;
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			col= rand() % (50 + 0);//for COLUMNS 0-49
+			row=  rand() % (25 + 0);//for Rows 0-24
+			while ((col + length) >C){
+				col= rand() % (50 + 0);//for COLUMNS 0-49
+			}
+			while ((row-length)<0){
+				row=  rand() % (25 + 0);//for Rows 0-24
+			}
+			// printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			// pause;
+		}
+		col++;
+		row--;
+	}
+	col = col-length;
+	row = row + length;
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		col++;
+		row--;
+	}
+
+
+}
+void LupFit(int col, int row, int length, char wordSearch[][C],char *temp){
+	int i =0;
+	char test = ' ';
+	int t= 0;
+	// printf("%i, %i\n", length, (col-length));
+	// printf("%i\n", (row-length));
+	// pause;
+	while ((col-length)<0){
+		col= rand() % (50 + 0);//for COLUMNS 0-49
+	}
+	while ((row-length)<0){
+		row=  rand() % (25 + 0);//for Rows 0-24
+	}
+	// printf("%i\n", (col-length));
+	// printf("%i\n", (row-length));
+	// printf("Left up\n");
+	// pause;
+	for(t = 0; t<length;t++){
+		test = temp[t];
+		test = toupper(test);
+		temp[t] = test;
+		while(temp[t] != wordSearch[row][col] && wordSearch[row][col] != '\0'){
+			t = 0;
+			col= rand() % (50 + 0);//for COLUMNS 0-49
+			row=  rand() % (25 + 0);//for Rows 0-24
+			while ((col-length)<0){
+				col= rand() % (50 + 0);//for COLUMNS 0-49
+			}
+			while ((row-length)<0){
+				row=  rand() % (25 + 0);//for Rows 0-24
+			}
+			// printf("%c %c %i %i\n", temp[i], wordSearch[row][col], row, col);
+			// pause;
+		}
+		col--;
+		row--;
+	}
+	col= col+length;
+	row =row+length;
+	for(i=0; i<length;i++){
+		wordSearch[row][col] = temp[i];
+		col--;
+		row--;
+	}
+}
+void displayGame(char wordSearch[][C])
+{
+	int i = 0, j = 0;
+
+	for (i = 0; i < R; i++)
+	{
+		for (j = 0; j < C; j++)
+		{
+			printf("%2c", wordSearch[i][j]);
+		}//end for (cols)
+
+		printf("\n\n"); //adds new line before the next row. 
+
+	}//end for (rows)
+
+}//game is displayed on screen.
+void fillInTheBlank(char wordSearch[][C])
+{
+	int i = 0, j = 0;
+
+	for (i = 0; i < R; i++)
+	{
+		for (j = 0; j < C; j++)
+		{
+			if (wordSearch[i][j] == '\0')
+			{
+				wordSearch[i][j] = randomLetter();
+			}
+			//what happens to each cell
+		}//end for (cols)
+	}//end for (rows)
+
+}//end fill in the blank
+char randomLetter()
+{
+	char randomLetter = ' ';
+
+	randomLetter = (rand() % (90 + 1 - 65)) + 65;//generates random ascii number for letters A-Z
+
+	return randomLetter;
+
+}//end of random letter
+
+void displayWords(char keyword[KEY][KEYLEN]){
+	int i=0;
+
+	for (i=0; i < 7; i++)
+	{
+		printf("%i.%s \t", i+1, keyword[i]);
+		if ( (strlen(keyword[i])) < 5){ //if the word is 4 letters or less, 
+			printf("\t"); //then add an extra tab to line up numbers
+		}//end if
+		printf("%i.%s\n", i+8, keyword[7+i]);
+	}//end for loop
+
+}//displays words in 2 columns
+
+void sortAToZ(char keyword[KEY][KEYLEN]){
+
+	int i=0;
+	int F=13;
+	
+	//temp2[i][0] =  keyword[i][0]
+
+	//for(i = 0; i < 8; i++)        +++ we can see how computer see the char as a number  +++
+	//printf("%d", temp2[i][0] & (1 << (7 - i) ) );
+
+	//for (i = 0; i < 8; i++)
+	//printf("%d", keyword[i+1][0]& (1 << (7 - i) ) );
+
+
+	for(i=0;i<F;i++){
+
+			sortEm(keyword);//go to the function sortEm
+
+	//F--;//We dont have to care about the bottom anymore. (for instance) once letter 'Z' was placed all the way bottom, nothing can take the place of 'Z'
+	}//end of for
+	pause;
+
+}//end of sortAToZ
+
+void sortEm(char keyword[KEY][KEYLEN]){
+
+	int i=0,j;
+	int F=13;
+	
+	char TEMP3[9]={'\0'}; 
+
+	for(j=0;j<F;j++){ 
+		
+			/* this is if(keyword[j][0]==keyword[j+1][0]) is for cheching words multiple times
+			if a user type apple, ace, ant the program swtichs the places of these words. */
+			if(keyword[j][0]==keyword[j+1][0]){ //if the first letter is same, look at second letter 
+				int b=1;// b needs toget 0 every time
+
+				do{   //looking at each letter until a letter is bigger than keyword[j][b]>keyword[j+1][b] or the letter is same 
+
+				if(keyword[j][b]>keyword[j+1][b]){
+					strcpy(TEMP3,keyword[j]);
+				    strcpy(keyword[j], keyword[j+1]);
+				    strcpy(keyword[j+1], TEMP3);
+
+				}//end of if
+				    b++;
+				}while(keyword[j][b]>keyword[j+1][b]);
+
+				}//end of if 
+
+				if(keyword[j][0]>keyword[j+1][0]){   
+				strcpy(TEMP3,keyword[j]);
+				strcpy(keyword[j], keyword[j+1]);
+				strcpy(keyword[j+1], TEMP3);
+
+			}// end of if 
+
+			
+		}//end of for 
+
+}//End of sortEm
