@@ -42,4 +42,4 @@ that char *temp[8] ={'\0'}; on line 74 should be char *temp[9] ={'\0'};
 I dont know if all those functions to display was necessary cause it will be hard to get all the printf as fprintf- 
 into the text file that has to be created. you are going to have to open the text file in everyone of the functions.
 
-The random letter was pretty smart i didnt think. Good job guys.
+The random letter was pretty smart i didnt think about that. Good job guys.
