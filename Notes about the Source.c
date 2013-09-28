@@ -1,6 +1,6 @@
 //Totaram Ramrattan comment about what i think about the Source.c if that one is gonna be used
 
-		col= rand() % (50 + 0);//for COLUMNS 0-49
+/*		col= rand() % (50 + 0);//for COLUMNS 0-49
 
 		row=  rand() % (25 + 0);//for Rows 0-24
 
@@ -24,7 +24,10 @@ so
 
 col= rand() % (49 + 0);//for COLUMNS 0-49
 
-row=  rand() % (24 + 0);//for Rows 0-24
+row=  rand() % (24 + 0);//for Rows 0-24*/
+all of the above i was wrong and no one told me that basically row=  rand() % (25 + 0);//for Rows 0-24 with the 25 means
+that it starts at 0 and do 24 more meaning {0,1,3...23,24} would be 25 number.
+People i am not that smart you got to tell me i am wrong so i can correct my self.
 
 direct = (rand() % (8 + 1 - 1)) + 1;//for directions 1-8
 
@@ -32,10 +35,6 @@ why all the plus and minus all unnecessary cause +1 - 1 = 0 and the + 1 = 1
 
 basically direct = (rand() % (8 + 1));//for directions 1-8 will do the same with no worries.
 
-and these col= (rand() % (49 + 1 - 0)) + 0;//for COLUMNS 0-49     line 80
-		      row= (rand() % (24 + 1 - 0)) + 0;//for Rows 0-24        line 81
-simply can be   col= (rand() % (49 + 0));//for COLUMNS 0-49
-		            row= (rand() % (24 + 0));//for Rows 0-24	     
 		            
 that char *temp[8] ={'\0'}; on line 74 should be char *temp[9] ={'\0'};
 		      
