@@ -2,7 +2,8 @@
 // also I got the keywords from example (1. BASEBALL to print out as 1. Baseball)
 // You can use this code as the code if you want, all this code needs is a bunch of comments
 // if you want to use it just email me and tell me you want comments on it and i would put it in.
-
+// i wasnt getting 'Z' to show up in the puzzle because i had ALPHA = rand()% 25 + 0; that only goes to 24 which is Y.
+// Finished i am done with this. Good luck guys hope which ever code you use work well with out any problems.
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -53,7 +54,7 @@ main(){
 	printf("\n\n\n");
 
 	pause;
-	
+
 	displayPuzzle(wordSearch, keyword);
 
 	pause;
@@ -90,7 +91,7 @@ void displayPuzzle(char wordSearch[][C],char keyword[][KEYLEN]){
 	for(a=0; a<R;a++){
 		for(b=0;b<C;b++){
 			while(wordSearch[a][b]== '\0'){
-				ALPHA = rand()% 25 + 0;
+				ALPHA = rand()% 26 + 0;
 				wordSearch[a][b] = alphabet[ALPHA];
 			}
 			printf("%c", wordSearch[a][b]);
@@ -102,22 +103,18 @@ void displayPuzzle(char wordSearch[][C],char keyword[][KEYLEN]){
 
 	for (i=0; i < (KEY/2); i++){
 		printf("%i. %s \t", i+1, keyword[i]);
-			if ( (strlen(keyword[i])) < 4){ //if the word is 3 letters or less, 
-				printf("\t");				//then add an extra tab to line up numbers
-			}//end if
+		if ( (strlen(keyword[i])) < 4){ //if the word is 3 letters or less, 
+			printf("\t");				//then add an extra tab to line up numbers
+		}//end if
 		printf("\t%i. %s\n", i+8, keyword[7+i]);
 	}//end for loop
 
 	printf("\n");
 
 	wordPuzzleFile = fopen("c:\\wordPuzzleFile.txt", "a+");
-		fprintf(wordPuzzleFile,"\n");
+	fprintf(wordPuzzleFile,"\n");
 	for(a=0; a<R;a++){
 		for(b=0;b<C;b++){
-			while(wordSearch[a][b]== '\0'){
-				ALPHA = rand()% 25 + 0;
-				wordSearch[a][b] = alphabet[ALPHA];
-			}
 			fprintf(wordPuzzleFile,"%c", wordSearch[a][b]);
 		}
 		fprintf(wordPuzzleFile,"\n");
@@ -127,9 +124,9 @@ void displayPuzzle(char wordSearch[][C],char keyword[][KEYLEN]){
 
 	for (i=0; i < (KEY/2); i++){
 		fprintf(wordPuzzleFile,"%i. %s \t", i+1, keyword[i]);
-			if ( (strlen(keyword[i])) < 4){ //if the word is 3 letters or less, 
-				fprintf(wordPuzzleFile,"\t");				//then add an extra tab to line up numbers
-			}//end if
+		if ( (strlen(keyword[i])) < 4){ //if the word is 3 letters or less, 
+			fprintf(wordPuzzleFile,"\t");				//then add an extra tab to line up numbers
+		}//end if
 		fprintf(wordPuzzleFile,"\t%i. %s\n", i+8, keyword[7+i]);	
 	}//end for loop
 
