@@ -65,17 +65,17 @@ void displayIntro (){//menu for looks
 	printf("-||||||||||-||||||||||||||||||||||||||||||||||-||||||||||-\n");//feel free to change menu text
 	printf("|-||||||||-||||||||||||||||||||||||||||||||||||-||||||||-|\n");
 	printf("||-||||||-                                      -||||||-||\n");
-	printf("|||-||||-|    Welcome to Random Crossword       |-||||-|||\n");
-	printf("||||-||-||             Generator                ||-||-||||\n");
-	printf("|||||--|||                                      |||--|||||\n");
-	printf("|||||--|||                                      |||--|||||\n");
-	printf("||||-||-||     Best source for your crossword   ||-||-||||\n");
-	printf("|||-||||-|            creation means            |-||||-|||\n");
-	printf("||-||||||-                                      -||||||-||\n");
+	printf("|||-||||-|    Random Crossword Generator        |-||||-|||\n");
+	printf("||||-||-||           Created by:                ||-||-||||\n");
+	printf("|||||--|||               ABBZ                   |||--|||||\n");
+	printf("|||||--|||               IAN                   |||--|||||\n");
+	printf("||||-||-||              MORVAN                  ||-||-||||\n");
+	printf("|||-||||-|               SHIN                   |-||||-|||\n");
+	printf("||-||||||-              TOTARAM                 -||||||-||\n");
 	printf("|-||||||||-||||||||||||||||||||||||||||||||||||-||||||||-|\n");
 	printf("-||||||||||-||||||||||||||||||||||||||||||||||-||||||||||-\n\n");
 
-	printf("Please input your words to be used:\n");
+	printf("Please input your words to begin:\n");
 
 }// end of displayMenu
 void getWords(char keyword[][KEYLEN]){
