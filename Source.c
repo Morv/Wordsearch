@@ -70,7 +70,7 @@ void displayIntro (){//menu for looks
 	printf("|||-||||-|    Random Crossword Generator        |-||||-|||\n");
 	printf("||||-||-||           Created by:                ||-||-||||\n");
 	printf("|||||--|||               ABBZ                   |||--|||||\n");
-	printf("|||||--|||               IAN                   |||--|||||\n");
+	printf("|||||--|||               IAN                    |||--|||||\n");
 	printf("||||-||-||              MORVAN                  ||-||-||||\n");
 	printf("|||-||||-|               SHIN                   |-||||-|||\n");
 	printf("||-||||||-              TOTARAM                 -||||||-||\n");
