@@ -40,6 +40,7 @@ void displayWords(char keyword[][KEYLEN]);
 void sortAToZ(char keyword[][KEYLEN]);
 void saveGame(char wordSearch[][C], char keyword[][KEYLEN]);
 void displayIntro ();
+void capitalize(char keyword[][KEYLEN]);
 
 main(){
 	int a =0,b=0;
@@ -52,6 +53,7 @@ main(){
 	displayIntro ();
 	getWords(keyword);
 	fits(wordSearch, keyword);
+	capitalize(keyword);
 	cls;
 	fillInTheBlank(wordSearch);
 	sortAToZ(keyword);
@@ -458,20 +460,7 @@ char randomLetter()
 }//end of random letter
 void displayWords(char keyword[][KEYLEN])
 {
-	//CAPITALIZE THE WORDS AND MAKE EVERY OTHER LETTER LOWERCASE
 	int i=0, j=0;
-
-	for (i = 0; i < KEY; i++)
-	{
-		keyword[i][j] = toupper(keyword[i][j]);
-
-		for (j = 1; j < KEYLEN-1; j++)
-		{
-		 keyword[i][j] = tolower(keyword[i][j]);
-		}//end for 
-
-	}//end for
-
 
       	for (i=0; i < (KEY/2); i++)
 	{
@@ -517,18 +506,6 @@ void saveGame(char wordSearch[][C], char keyword[][KEYLEN])
 	}//end big for
 	fprintf(pWordPuzzleFile, "\n\n\n");
 
-	//CAPITALIZE THE KEYWORDS AND MAKE EVERY OTHER LETTER LOWERCASE
-	for (i = 0; i < KEY; i++)
-	{
-		keyword[i][j] = toupper(keyword[i][j]);
-
-		for (j = 1; j < KEYLEN-1; j++)
-		{
-		 keyword[i][j] = tolower(keyword[i][j]);
-		}//end for 
-
-	}//end for
-
 	//ADD KEYWORDS ARRAY TO THE FILE
 	 for (i=0; i < (KEY/2); i++){
 		fprintf(pWordPuzzleFile, "%i.%s \t", i+1, keyword[i]);
@@ -543,3 +520,19 @@ void saveGame(char wordSearch[][C], char keyword[][KEYLEN])
 	 fclose(pWordPuzzleFile);//close file
 	 printf("\n\nWordsearch saved to file.\n");
 }//end save game to file
+void capitalize (char keyword[][KEYLEN])
+{
+	int i=0, j=0;
+
+	for (i = 0; i < KEY; i++)
+	{
+		keyword[i][j] = toupper(keyword[i][j]);
+
+		for (j = 1; j < KEYLEN-1; j++)
+		{
+		 keyword[i][j] = tolower(keyword[i][j]);
+		}//end for 
+
+	}//end for
+
+}//end capitalize
