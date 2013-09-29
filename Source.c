@@ -28,7 +28,7 @@ char randomLetter();
 void displayWords(char keyword[][KEYLEN]);
 void sortAToZ(char keyword[][KEYLEN]);
 void saveGame(char wordSearch[][C], char keyword[][KEYLEN]);
-
+void displayMenu ();
 
 main(){
 	int a =0,b=0;
@@ -38,6 +38,7 @@ main(){
 	srand(time(NULL));
 	system("mode CON: COLS=102");
 	
+	displayMenu ();
 	getWords(keyword);
 	fits(wordSearch, keyword);
 	cls;
@@ -48,12 +49,30 @@ main(){
 	saveGame(wordSearch, keyword);
 	pause;
 }
+void displayMenu (){//menu for looks
+
+	printf("-||||||||||/||||||||||||||||||||||||||||||||||\||||||||||-\n");//feel free to change menu text
+	printf("|-||||||||/||||||||||||||||||||||||||||||||||||\||||||||-|\n");
+	printf("||-||||||/                                      \||||||-||\n");
+	printf("|||-||||/|   Welcome to Random Word             |\||||-|||\n");
+	printf("||||-||/||         Generator                    ||\||-||||\n");
+	printf("|||||-/|||                                      |||\-|||||\n");
+	printf("|||||/-|||                                      |||-\|||||\n");
+	printf("||||/||-||     Best source for your crossword   ||-||\||||\n");
+	printf("|||/||||-|        creation means                |-||||\|||\n");
+	printf("||/||||||-                                v7.0  -||||||\||\n");
+	printf("|/||||||||-||||||||||||||||||||||||||||||||||||-||||||||\|\n");
+	printf("/||||||||||-||||||||||||||||||||||||||||||||||-||||||||||\\n\n");
+
+	printf("Please input your words to be used:\n");
+
+}// end of displayMenu
 
 void getWords(char keyword[][KEYLEN]){
 	int i = 0;
 
 	for(i=0; i<KEY; i++){
-		printf("Enter the %i word of 14: ", i+1);
+		printf("Enter word %i of 14: ", i+1);
 		scanf("%s", keyword[i]);
 		while(strlen(keyword[i])>8){
 			printf("ERROR: Word must be 8 letters or less\n!!!Re-Enter word %i of 14: ", i+1);
