@@ -458,7 +458,20 @@ char randomLetter()
 }//end of random letter
 void displayWords(char keyword[][KEYLEN])
 {
-	int i=0;
+	//CAPITALIZE THE WORDS AND MAKE EVERY OTHER LETTER LOWERCASE
+	int i=0, j=0;
+
+	for (i = 0; i < KEY; i++)
+	{
+		keyword[i][j] = toupper(keyword[i][j]);
+
+		for (j = 1; j < KEYLEN-1; j++)
+		{
+		 keyword[i][j] = tolower(keyword[i][j]);
+		}//end for 
+
+	}//end for
+
 
       	for (i=0; i < (KEY/2); i++)
 	{
@@ -503,6 +516,18 @@ void saveGame(char wordSearch[][C], char keyword[][KEYLEN])
 
 	}//end big for
 	fprintf(pWordPuzzleFile, "\n\n\n");
+
+	//CAPITALIZE THE KEYWORDS AND MAKE EVERY OTHER LETTER LOWERCASE
+	for (i = 0; i < KEY; i++)
+	{
+		keyword[i][j] = toupper(keyword[i][j]);
+
+		for (j = 1; j < KEYLEN-1; j++)
+		{
+		 keyword[i][j] = tolower(keyword[i][j]);
+		}//end for 
+
+	}//end for
 
 	//ADD KEYWORDS ARRAY TO THE FILE
 	 for (i=0; i < (KEY/2); i++){
