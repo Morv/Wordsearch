@@ -70,7 +70,7 @@ void displayIntro (){//menu for looks
 	printf("|||-||||-|    Random Crossword Generator        |-||||-|||\n");
 	printf("||||-||-||           Created by:                ||-||-||||\n");
 	printf("|||||--|||               ABBZ                   |||--|||||\n");
-	printf("|||||--|||               IAN                    |||--|||||\n");
+	printf("|||||--|||               IAN                   |||--|||||\n");
 	printf("||||-||-||              MORVAN                  ||-||-||||\n");
 	printf("|||-||||-|               SHIN                   |-||||-|||\n");
 	printf("||-||||||-              TOTARAM                 -||||||-||\n");
@@ -97,7 +97,7 @@ void getWords(char keyword[][KEYLEN]){
 }//end of getWords
 void fits(char wordSearch[][C],char keyword[][KEYLEN]){
 	int a =0,b=0, count = 0, col=0, row=0, direct =0, length = 0;
-	char *temp[8] ={'\0'}; //temporary storage for keywords.
+	char *temp[KEYLEN] ={'\0'}; //temporary storage for keywords.
 
 	for(count= 0; count<KEY; count++)
 	{
