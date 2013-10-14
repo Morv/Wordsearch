@@ -22,7 +22,7 @@
 #define flush fflush(stdin)
 #define C 50
 #define R 25
-#define KEY 14
+#define KEY 50
 #define KEYLEN 9
 
 
